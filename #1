@@ -1,0 +1,49 @@
+using System;
+namespace IntegralCalculator
+{
+    public delegate double MathFunction(double x);   // Делегат для математичної функції
+    public class Integral
+    {
+        private double a, b;    // Межі інтегрування
+        private int n;          // Кількість прямокутників
+        private MathFunction func;
+        public Integral(double a, double b, int n, MathFunction func)    // Конструктор класу
+        {
+            this.a = a;
+            this.b = b;
+            this.n = n;
+            this.func = func;
+        }
+        public double Calculate()     // Метод обчислення визначеного інтегралу методом правих прямокутників
+        {
+            double h = (b - a) / n; // ширина одного прямокутника
+            double sum = 0.0;
+            for (int i = 1; i <= n; i++)    // Обчислення суми площ прямокутників
+            {
+                double x = a + i * h;       // праві кінці підінтервалів
+                sum += func(x);             // значення функції у правій точці
+            }
+            return h * sum;
+        }
+    }
+    class Program
+    {
+        static double Function(double x)  // Функція, яку інтегруємо: f(x) = x^2
+        {
+            return x * x;
+        }
+        static void Main(string[] args)
+        {
+            double lowerLimit = 0;   // Вхідні дані
+            double upperLimit = 2;
+            int rectangles = 100;
+            Console.WriteLine("Function: f(x) = x^2");
+            Console.WriteLine("Method: Right rectangles");
+            Console.WriteLine($"Interval: from {lowerLimit} to {upperLimit}");
+            Console.WriteLine($"Number of rectangles: {rectangles}");
+            Integral integral = new Integral(lowerLimit, upperLimit, rectangles, Function);    // Створення об'єкта інтегралу і обчислення
+            double result = integral.Calculate();
+            Console.WriteLine($"Calculated integral value: {result:F6}");    // Виведення результату
+        }
+    }
+}
