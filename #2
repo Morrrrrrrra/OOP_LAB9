@@ -1,0 +1,29 @@
+//Приклад #3: Multicasting + Delegate Operations
+public delegate void Fun(int x, int y);   // Оголошення делегата, який представляє метод з двома параметрами типу int
+class TestMain
+{
+    private static void Sum(int x, int y)   // Метод для виведення суми (імітація, не обчислення)
+    {
+        Console.WriteLine("Called Sum " + x + "," + y);
+    }
+    private static void Prod(int x, int y)    // Метод для виведення добутку (імітація, не обчислення)
+    {
+        Console.WriteLine("Called Product " + x + "," + y);
+    }
+    public static void Main()
+    {
+        Fun x = new Fun(Sum);      // Створення делегатів і прив’язка до методів
+        Fun y = new Fun(Prod);
+        x += y;           // Додавання методу Prod до ланцюжка виклику x
+        Console.WriteLine("Calling x(20, 30):");
+        x(20, 30); // Викликає Sum(20,30) і Prod(20,30)
+        x += x;   // Подвоєння делегата: x тепер викликає всі методи двічі
+        Console.WriteLine("\nCalling x(10, 20):");
+        x(10, 20); // Викликає Sum, Prod, Sum, Prod
+        x -= y;    // Видалення методу Prod із делегата
+        x -= y;
+        x -= y;    // Третє видалення не вплине, бо Prod вже видалено
+        Console.WriteLine("\nCalling x(1, 1):");
+        x(1, 1); // Лише Sum(1,1)
+    }
+}
