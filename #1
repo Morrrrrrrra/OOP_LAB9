@@ -28,22 +28,19 @@ namespace IntegralCalculator
     }
     class Program
     {
-        static double Function(double x)  // Функція, яку інтегруємо: f(x) = x^2
-        {
-            return x * x;
-        }
         static void Main(string[] args)
         {
-            double lowerLimit = 0;   // Вхідні дані
-            double upperLimit = 2;
-            int rectangles = 100;
+            double lowerLimit = 0;   // Нижня межа
+            double upperLimit = 2;   // Верхня межа
+            int rectangles = 100;    // Кількість прямокутників
+            MathFunction func = x => x * x;     // Функція 
             Console.WriteLine("Function: f(x) = x^2");
             Console.WriteLine("Method: Right rectangles");
             Console.WriteLine($"Interval: from {lowerLimit} to {upperLimit}");
             Console.WriteLine($"Number of rectangles: {rectangles}");
-            Integral integral = new Integral(lowerLimit, upperLimit, rectangles, Function);    // Створення об'єкта інтегралу і обчислення
+            Integral integral = new Integral(lowerLimit, upperLimit, rectangles, func);
             double result = integral.Calculate();
-            Console.WriteLine($"Calculated integral value: {result:F6}");    // Виведення результату
+            Console.WriteLine($"Calculated integral value: {result:F6}");
         }
     }
 }
